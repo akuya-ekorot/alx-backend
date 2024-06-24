@@ -59,16 +59,19 @@ class Server:
         return start_index, end_index
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> HyperDict:
+        """
+        Returns a dictionary with page_size, page, data, next_page, prev_page
+        and total_pages
+        """
 
+        data = self.get_page(page, page_size)
+        page_size_result = len(data)
         dataset_len = 0 if self.dataset() is None else len(self.dataset())
         total_pages = (
             math.floor(dataset_len / page_size)
             if dataset_len % page_size == 0
             else math.floor(dataset_len / page_size) + 1
         )
-
-        data = self.get_page(page, page_size)
-        page_size_result = len(data)
 
         return {
             "page_size": page_size_result,
